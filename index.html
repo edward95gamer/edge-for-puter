@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edge</title>
+  <style>
+    #tabs {
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+    }
+    .tab {
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+    #hideButton {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <input type="text" id="searchInput">
+  <button onclick="search()">Search</button>
+  <button onclick="createTab()">New Tab</button>
+  <button onclick="toggleTabs()" id="hideButton">Hide Tabs</button>
+  
+  <ul id="tabs"></ul>
+  
+  <iframe id="searchFrame" style="width: 100%; height: 80vh; border: none;"></iframe>
+  
+  <script>
+    let tabCounter = 0;
+
+    function createTab() {
+      const tabs = document.getElementById('tabs');
+      const newTab = document.createElement('li');
+      newTab.className = 'tab';
+      newTab.textContent = `Tab ${++tabCounter}`;
+      newTab.onclick = () => showTab(newTab.textContent);
+      tabs.appendChild(newTab);
+    }
+
+    function showTab(tabName) {
+      const searchFrame = document.getElementById('searchFrame');
+      const searchInput = document.getElementById('searchInput');
+      searchInput.value = tabName;
+      searchFrame.src = `https://www.bing.com/search?q=${encodeURIComponent(tabName)}`;
+    }
+
+    function search() {
+      const searchInput = document.getElementById('searchInput').value;
+      showTab(searchInput);
+    }
+
+    function toggleTabs() {
+      const tabs = document.getElementById('tabs');
+      tabs.style.display = tabs.style.display === 'none' ? 'flex' : 'none';
+    }
+  </script>
+</body>
+</html>
